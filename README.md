@@ -40,23 +40,20 @@ cd docker_compose_odoo_template
 ~~~
 
 2. How to Do a Clean Restart of a Docker Instance
-~~~
-Stop the container(s) using the following command:
-  `docker-compose down`
-Delete all containers using the following command:
-  `sudo docker rm -f $(sudo docker ps -a -q)`
-Delete all volumes using the following command:
-  `sudo docker volume rm $(sudo docker volume ls -q)`
+- Stop the container(s) using the following command: `docker-compose down`
+- Delete all containers using the following command: `sudo docker rm -f $(sudo docker ps -a -q)`
+- Delete all volumes using the following command: `sudo docker volume rm $(sudo docker volume ls -q)`
 
-Note: Deleting volumes will wipe out their data. Back up any data that you need before deleting a container
-~~~
+  Note: Deleting volumes will wipe out their data. Back up any data that you need before deleting a container
 
 3. How to execute the Odoo scaffold command
-`sudo docker exec odoo-stack /usr/bin/odoo scaffold openacademy /mnt/extra-addons`
+
+- `sudo docker exec odoo-stack /usr/bin/odoo scaffold openacademy /mnt/extra-addons`
 
 4. How to execute the Odoo install command in console
-Uncomment the line 15 of the `docker-compose.yml` and modify the `openacademy` by the propper module name
+
+- Uncomment the line 15 of the `docker-compose.yml` and modify the `openacademy` by the propper module name
 
 5. How to execute the Odoo update command in console
-Uncomment the line 17 of the `docker-compose.yml` and modify the `openacademy` by the propper module name
-~~~
+
+- Uncomment the line 17 of the `docker-compose.yml` and modify the `openacademy` by the propper module name
