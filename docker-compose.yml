@@ -1,0 +1,53 @@
+version: '3.9'
+services:
+  odoo-stack:
+    container_name: odoo-stack
+    build:
+      context: ./dockerfile
+      dockerfile: odoo.Dockerfile
+    ports:
+      - 8069:8069"
+    volumes:
+      - ./addons-extra:/mnt/extra-addons
+      - ./odoo-config:/etc/odoo
+      - odoo-web-data:/var/lib/odoo
+    #Uncomment next line to install a module
+    #command: -i openacademy -d odoo
+    #Uncomment next line to update a module
+    #command: -i openacademy -d odoo
+    depends_on:
+      - database-stack
+    restart: always
+  
+  database-stack:
+    container_name: database-stack
+    image: ${DB_IMAGE}:${DB_TAG}
+    volumes:
+      - database-stack-data:/var/lib/postgresql/data/pgdata
+    ports:
+      - "${DB_PORT}:5432"
+    #command: -p 5433
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_PASSWORD=${DB_PASSWD}
+      - POSTGRES_USER=${DB_USER}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    restart: always
+    
+  nginx-stack:
+    container_name: nginx-stack
+    build:
+      context: ./dockerfile
+      dockerfile: nginx.Dockerfile
+    volumes:
+      - ./nginx-config:/etc/nginx/conf.d
+    ports:
+      - 80:80   #non secure
+      - 443:443 #ssl
+    depends_on:
+      - odoo-stack
+    restart: always
+
+volumes:
+  odoo-web-data:
+  database-stack-data:
