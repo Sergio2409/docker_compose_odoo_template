@@ -31,11 +31,16 @@
 6. Start all the containers the first time
     - `sudo docker-compose up`
 
-7. Comment the line 15 of the `docker-compose.yml` to avoid install base module
+7. Comment the line 15 of the `docker-compose.yml` to avoid installing the `base` module every time
 
-8. At this point the setup was finished if no error occured
+8. Start all the containers
+    - `sudo docker-compose up`
 
-## How to section
+9. [Open the link](http://localhost:8069/)
+
+10. At this point the setup was finished if no error occured
+
+## How To section
 1. How to start all containers
     - `sudo docker-compose up`
 
