@@ -1,8 +1,8 @@
 # Installation and Initial Configuration
 
 ## Docker installation
-1. [Install docker](https://docs.docker.com/get-docker/){:target="_blank"}
-2. [Install docker-compose](https://docs.docker.com/compose/install/){:target="_blank"}
+1. [Install docker](https://docs.docker.com/get-docker/)
+2. [Install docker-compose](https://docs.docker.com/compose/install/)
 
 ## Setup Odoo with Docker
 1. Download the Repository
@@ -12,14 +12,14 @@
     - cd docker_compose_odoo_template
 
 3. Select Odoo version from the Supported tags.
-    - Go to to the link [Odoo oficial docker image](https://registry.hub.docker.com/_/odoo/){:target="_blank"}
+    - Go to to the link [Odoo oficial docker image](https://registry.hub.docker.com/_/odoo/)
     - Select one tag from the the Supported tags and respective Dockerfile links for the respective Odoo version.
     - Update the file `odoo.Dockerfile` with the respective Odoo version. 
     - First line of file `odoo.Dockerfile` `FROM odoo:14.0`, 14.0 is the default tag
 
 4. The next step is to update the `.env` file with your own values if required otherwise you can let the default values.
 	File `.env`:
-	- DB_IMAGE=postgres - [Postgres oficial docker image](https://registry.hub.docker.com/_/postgres){:target="_blank"}
+	- DB_IMAGE=postgres - [Postgres oficial docker image](https://registry.hub.docker.com/_/postgres)
 	- DB_TAG=latest     - From the above link select the respective tag, the `latest` tag is the default
 	- DB_PORT=5433      - PostgreSQL port
 	- DB_NAME=odoo      - Database name
@@ -36,7 +36,7 @@
 8. Start all the containers
     - `sudo docker-compose up`
 
-9. [Open the Odoo instance by clicking this link](http://localhost:8069/){:target="_blank"}
+9. [Open the Odoo instance by clicking this link](http://localhost:8069/)
     - The credentials are configured in the `.env` file.
     - If no changes are made use login: `admin` and password: `admin`
 
