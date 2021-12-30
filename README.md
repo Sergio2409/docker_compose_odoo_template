@@ -20,18 +20,16 @@ cd docker_compose_odoo_template
 - First line of file `odoo.Dockerfile` `FROM odoo:14.0`, 14.0 is the default tag
 
 4. The next step is to update the `.env` file with your own values if required otherwise you can let the default values.
-
-File `.env`:
-- DB_IMAGE=postgres - [Postgres oficial docker image](https://registry.hub.docker.com/_/postgres)
-- DB_TAG=latest     - From the above link select the respective tag, the `latest` tag is the default
-- DB_PORT=5433      - PostgreSQL port
-- DB_NAME=odoo      - Database name
-- DB_USER=odoo      - User login
-- DB_PASSWD=odoo    - User password
-5. Before using the file you need to execute the build command
+	File `.env`:
+	- DB_IMAGE=postgres - [Postgres oficial docker image](https://registry.hub.docker.com/_/postgres)
+	- DB_TAG=latest     - From the above link select the respective tag, the `latest` tag is the default
+	- DB_PORT=5433      - PostgreSQL port
+	- DB_NAME=odoo      - Database name
+	- DB_USER=odoo      - User login
+	- DB_PASSWD=odoo    - User password
+5. Before using the file you need to execute the build command. This step is executed only one time
 ~~~
 `sudo docker-compose build`
-This step is executed only one time
 ~~~
 6. At this point the setup was finished if no error occured
 
