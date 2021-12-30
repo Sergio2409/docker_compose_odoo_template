@@ -36,7 +36,7 @@
 8. Start all the containers
     - `sudo docker-compose up`
 
-9. [Open the Odoo instance](http://localhost:8069/)
+9. [Open the Odoo instance by clicking this link](http://localhost:8069/)
     - The credentials are configured in the `.env` file.
     - If no changes are made use login: `admin` and password: `admin`
 
