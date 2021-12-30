@@ -1,10 +1,10 @@
 # Installation and Initial Configuration
 
-## Initial Preparation
+## Docker installation
 1. [Install docker](https://docs.docker.com/get-docker/)
 2. [Install docker-compose](https://docs.docker.com/compose/install/)
 
-## Instalación de Odoo con docker
+## Setup Odoo with Docker
 1. Download the Repository
 ~~~
 git clone git@github.com:Sergio2409/docker_compose_odoo_template.git
