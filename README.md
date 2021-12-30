@@ -1,5 +1,3 @@
-# docker_compose_odoo_template
-
 # Installation and Initial Configuration
 
 ## Initial Preparation
