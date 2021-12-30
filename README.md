@@ -31,7 +31,13 @@ cd docker_compose_odoo_template
 ~~~
 `sudo docker-compose build`
 ~~~
-6. At this point the setup was finished if no error occured
+
+6. Start all the containers the first time
+    - `sudo docker-compose up`
+
+7. Comment the line 15 of the `docker-compose.yml` to avoid install base module
+
+8. At this point the setup was finished if no error occured
 
 ## How to section
 1. How to start all containers

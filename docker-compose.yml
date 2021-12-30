@@ -6,15 +6,15 @@ services:
       context: ./dockerfile
       dockerfile: odoo.Dockerfile
     ports:
-      - 8069:8069"
+      - "8069:8069"
     volumes:
       - ./addons-extra:/mnt/extra-addons
       - ./odoo-config:/etc/odoo
       - odoo-web-data:/var/lib/odoo
     #Uncomment next line to install a module
-    #command: -i openacademy -d odoo
+    command: -i base -d odoo
     #Uncomment next line to update a module
-    #command: -i openacademy -d odoo
+    #command: -u openacademy -d odoo
     depends_on:
       - database-stack
     restart: always
