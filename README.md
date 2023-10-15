@@ -73,4 +73,7 @@
     - Create the new addon into the `addons-extra` folder to be recognized by the Odoo container
     - Stop the server
     - Start the server
-    - Remember to update the App list inside Odoo Apps 
+    - Remember to update the App list inside Odoo Apps
+
+8. How to access to the Debuggin session (Ipdb)
+    - On a new terminal once the Docker is running type: sudo docker attach odoo-stack
