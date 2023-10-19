@@ -10,13 +10,14 @@ services:
     stdin_open: true # To enable ipdb
     tty: true # To enable ipdb
     volumes:
-      - /mnt/c/Users/svaldes/src/HammDev/odoo-dev/odoo-e:/mnt/enterprise
-      - /mnt/c/Users/svaldes/src/HammDev/odoo-dev/hammerton:/mnt/extra-addons
-      - /mnt/c/Users/svaldes/src/HammDev/odoo-dev/hammerton:/mnt/hammerton
-      - ./odoo-config:/etc/odoo
+      - /mnt/c/Users/sergi/src/odoo-dev/odoo-e:/mnt/enterprise
+      # DANOSA
+      - /mnt/c/Users/sergi/src/odoo-dev/odoo-addons/odoo16/danosa:/mnt/extra-addons      
+      - .config/odoo16/odoo-config:/etc/odoo
+
       - odoo-web-data:/var/lib/odoo
     #Uncomment next line to install a module
-    command: -i hmr_data_bridge -d odoo # -i hmr_stock,hmr_data_bridge -d odoo --test-enable
+    command: -d odoo
     #Uncomment next line to update a module
     #command: -u openacademy -d odoo
     depends_on:
@@ -28,6 +29,7 @@ services:
     image: ${DB_IMAGE}:${DB_TAG}
     volumes:
       - database-stack-data:/var/lib/postgresql/data/pgdata
+      - /mnt/c/Users/sergi/src/odoo-dev/odoo-addons/odoo16/danosa/db/dump.sql:/docker-entrypoint-initdb.d
     ports:
       - "${DB_PORT}:5432"
     #command: -p 5433
