@@ -10,14 +10,13 @@ services:
     stdin_open: true # To enable ipdb
     tty: true # To enable ipdb
     volumes:
-      - /mnt/c/Users/sergi/src/odoo-dev/odoo-e:/mnt/enterprise
-      # DANOSA
-      - /mnt/c/Users/sergi/src/odoo-dev/odoo-addons/odoo16/danosa:/mnt/extra-addons      
-      - .config/odoo16/odoo-config:/etc/odoo
-
+      - /mnt/c/Users/sergi/src/odoo-dev/odoo_e:/mnt/enterprise
+      - /mnt/c/Users/sergi/src/odoo-dev/odoo-addons/odoo16/danosa:/mnt/extra-addons
+      - /mnt/c/Users/sergi/src/odoo-dev/odoo-addons/odoo16/danosa/_db_backup/db/filestore:/root/.local/share/Odoo/filestore/odoo      
+      - ./config/odoo16/odoo-config:/etc/odoo
       - odoo-web-data:/var/lib/odoo
     #Uncomment next line to install a module
-    command: -d odoo
+    #command: -d odoo -i base
     #Uncomment next line to update a module
     #command: -u openacademy -d odoo
     depends_on:
@@ -28,8 +27,10 @@ services:
     container_name: database-stack
     image: ${DB_IMAGE}:${DB_TAG}
     volumes:
-      - database-stack-data:/var/lib/postgresql/data/pgdata
-      - /mnt/c/Users/sergi/src/odoo-dev/odoo-addons/odoo16/danosa/db/dump.sql:/docker-entrypoint-initdb.d
+      - .db-danosa-data:/var/lib/postgresql/data
+      #- .database-stack-data:/var/lib/postgresql/data/pgdata
+      - /mnt/c/Users/sergi/src/odoo-dev/odoo-addons/odoo16/danosa/_db_backup/db/dump.sql:/docker-entrypoint-initdb.d/dump.sql
+      #- ./init-user-db/:/docker-entrypoint-initdb.d
     ports:
       - "${DB_PORT}:5432"
     #command: -p 5433
