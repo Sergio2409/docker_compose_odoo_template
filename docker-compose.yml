@@ -10,9 +10,9 @@ services:
     stdin_open: true # To enable ipdb
     tty: true # To enable ipdb
     volumes:
-      - /mnt/c/Users/sergi/src/odoo-dev/odoo_e:/mnt/enterprise
-      - /mnt/c/Users/sergi/src/odoo-dev/odoo-addons/odoo16/danosa:/mnt/extra-addons
-      - /mnt/c/Users/sergi/src/odoo-dev/odoo-addons/odoo16/danosa/_db_backup/db/filestore:/root/.local/share/Odoo/filestore/odoo      
+      #- /mnt/c/Users/sergi/src/odoo-dev/odoo_e:/mnt/enterprise
+      #- /mnt/c/Users/sergi/src/odoo-dev/odoo-addons/odoo16/danosa:/mnt/extra-addons
+      - /mnt/c/Users/sergi/src/odoo-dev/odoo-addons/odoo16/own/_db_backup/db/filestore:/root/.local/share/Odoo/filestore/odoo      
       - ./config/odoo16/odoo-config:/etc/odoo
       - odoo-web-data:/var/lib/odoo
     #Uncomment next line to install a module
@@ -27,9 +27,8 @@ services:
     container_name: database-stack
     image: ${DB_IMAGE}:${DB_TAG}
     volumes:
-      - .db-danosa-data:/var/lib/postgresql/data
-      #- .database-stack-data:/var/lib/postgresql/data/pgdata
-      - /mnt/c/Users/sergi/src/odoo-dev/odoo-addons/odoo16/danosa/_db_backup/db/dump.sql:/docker-entrypoint-initdb.d/dump.sql
+      - ./db-own-data:/var/lib/postgresql/data
+      - /mnt/c/Users/sergi/src/odoo-dev/odoo-addons/odoo16/own/_db_backup/dump.sql:/docker-entrypoint-initdb.d/dump.sql
       #- ./init-user-db/:/docker-entrypoint-initdb.d
     ports:
       - "${DB_PORT}:5432"
