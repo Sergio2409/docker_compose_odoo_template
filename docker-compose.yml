@@ -10,11 +10,11 @@ services:
     stdin_open: true # To enable ipdb
     tty: true # To enable ipdb
     volumes:
-      - /mnt/c/Users/svaldes/src/HammDev/odoo-dev/odoo-e:/mnt/enterprise
-      - /mnt/c/Users/svaldes/src/HammDev/odoo-dev/hammerton:/mnt/extra-addons
-      - /mnt/c/Users/svaldes/src/HammDev/odoo-dev/hammerton:/mnt/hammerton
+      - ${ODOO_E_PATH}:/mnt/enterprise
+      - ${HAMMERTON_MODULES_PATH}:/mnt/extra-addons
+      - ${HAMMERTON_MODULES_PATH}:/mnt/hammerton
       - ./odoo-config:/etc/odoo
-      - odoo-web-data:/var/lib/odoo
+      - odoo-web-data:/var/lib/odoo # ephemeral volume
     #Uncomment next line to install a module
     command: -i hmr_data_bridge -d odoo # -i hmr_stock,hmr_data_bridge -d odoo --test-enable
     #Uncomment next line to update a module
