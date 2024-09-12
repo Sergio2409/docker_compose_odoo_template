@@ -22,7 +22,7 @@ services:
     depends_on:
       - database-stack
     restart: always
-  
+
   database-stack:
     container_name: database-stack
     image: ${DB_IMAGE}:${DB_TAG}
@@ -37,7 +37,7 @@ services:
       - POSTGRES_USER=${DB_USER}
       - PGDATA=/var/lib/postgresql/data/pgdata
     restart: always
-    
+
   nginx-stack:
     container_name: nginx-stack
     build:
