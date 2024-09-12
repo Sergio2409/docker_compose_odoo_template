@@ -27,7 +27,7 @@ services:
     container_name: database-stack
     image: ${DB_IMAGE}:${DB_TAG}
     volumes:
-      - database-stack-data:/var/lib/postgresql/data/pgdata
+      - database-stack-data:/var/lib/postgresql/data/pgdata # ephemeral volume
     ports:
       - "${DB_PORT}:5432"
     #command: -p 5433
@@ -52,6 +52,7 @@ services:
       - odoo-stack
     restart: always
 
+ # These volumes are ephemeral (doesn't need to mount on local filesystem)
 volumes:
   odoo-web-data:
   database-stack-data:
