@@ -3,7 +3,7 @@ Instructions assume you are starting in your home directory (e.g. `~/`)
 
 ## Docker installation
 1. [Install docker](https://docs.docker.com/get-docker/)
-2. [Install docker-compose](https://docs.docker.com/compose/install/)
+2. [Install docker compose](https://docs.docker.com/compose/install/)
 
 ## Setup Odoo with Docker
 1. Download the Repository
@@ -29,15 +29,15 @@ Instructions assume you are starting in your home directory (e.g. `~/`)
     - ODOO_E_PATH=../odoo-3          # Relative path to Odoo-EE source
     - HMR_MODULES_PATH=../hmr-odoo   # Relative path to Hammerton modules
 5. Before using the file you need to execute the build command. This step is executed only one time
-    - `sudo docker-compose build`
+    - `sudo docker compose build`
 
 6. Start all the containers the first time
-    - `sudo docker-compose up`
+    - `sudo docker compose up`
 
-7. Comment the line 15 of the `docker-compose.yml` to avoid installing the `base` module every time
+7. Comment the line 15 of the `docker compose.yml` to avoid installing the `base` module every time
 
 8. Start all the containers
-    - `sudo docker-compose up`
+    - `sudo docker compose up`
 
 9. [Open the Odoo instance by clicking this link](http://localhost:8069/)
     - The credentials are configured in the `.env` file.
@@ -47,13 +47,12 @@ Instructions assume you are starting in your home directory (e.g. `~/`)
 
 ## How To section
 1. How to start all containers
-    - `sudo docker-compose up`
 
 2. How to stop all containers
     - `Press Ctrl + c`
 
 3. How to Do a Clean Restart of a Docker Instance
-    - Stop the container(s) using the following command: `docker-compose down`
+    - Stop the container(s) using the following command: `docker compose down`
     - Delete all containers using the following command: `sudo docker rm -f $(sudo docker ps -a -q)`
     - Delete all volumes using the following command: `sudo docker volume rm $(sudo docker volume ls -q)`
 
@@ -65,11 +64,11 @@ Instructions assume you are starting in your home directory (e.g. `~/`)
 
 5. How to execute the Odoo install command in console
 
-    - Uncomment the line 15 of the `docker-compose.yml` and modify the `openacademy` by the propper module name
+    - Uncomment the line 15 of the `docker compose.yml` and modify the `openacademy` by the propper module name
 
 6. How to execute the Odoo update command in console
 
-    - Uncomment the line 17 of the `docker-compose.yml` and modify the `openacademy` by the propper module name
+    - Uncomment the line 17 of the `docker compose.yml` and modify the `openacademy` by the propper module name
 
 7. How to include custom addons into the container
 
