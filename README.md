@@ -1,4 +1,4 @@
-# Installation and Initial Configuration
+# Installation and Initial Configuration for Hammerton Devs
 Instructions assume you are starting in your home directory (e.g. `~/`)
 
 ## Docker installation
@@ -7,25 +7,28 @@ Instructions assume you are starting in your home directory (e.g. `~/`)
 
 ## Setup Odoo with Docker
 1. Download the Repository
-    - `git clone git@github.com:Sergio2409/docker_compose_odoo_template.git`
+    - `git clone git clone --branch ham-dev git@github.com:Sergio2409/docker_compose_odoo_template.git`
+
+## Set up other repo directories
+    - Clone Odoo-EE repo (must have access) `git clone git@github.com:odoo/enterprise.git odoo-e`
+    - Clone hmr-odoo (must have access) `git clone https://github.com/hmr-odoo/hammerton.git hmr-odoo`
 
 2. Enter the folder
     - cd docker_compose_odoo_template
 
 3. Select Odoo version from the Supported tags.
     - Go to to the link [Odoo oficial docker image](https://registry.hub.docker.com/_/odoo/)
-    - Select one tag from the the Supported tags and respective Dockerfile links for the respective Odoo version.
-    - Update the file `odoo.Dockerfile` with the respective Odoo version. 
-    - First line of file `odoo.Dockerfile` `FROM odoo:14.0`, 14.0 is the default tag
+    - Select one tag from the the Supported tags and respective Dockerfile links for the respective Odoo version (e.g. `16.0`).
+    - Update the first line in `dockerfile/odoo.Dockerfile` to specify the appropriate Odoo version. The default version is `FROM odoo:14.0`.
 
 4. The next step is to update the `.env` file with your own values if required otherwise you can let the default values.
 	File `.env`:
-	- DB_IMAGE=postgres - [Postgres oficial docker image](https://registry.hub.docker.com/_/postgres)
-	- DB_TAG=latest     - From the above link select the respective tag, the `latest` tag is the default
-	- DB_PORT=5433      - PostgreSQL port
-	- DB_NAME=odoo      - Database name
-	- DB_USER=odoo      - User login
-	- DB_PASSWD=odoo    - User password
+    - DB_IMAGE=postgres              # [Postgres oficial docker image](https://registry.hub.docker.com/_/postgres)
+    - DB_TAG=latest                  # From the above link select the respective tag, the `latest` tag is the default
+    - DB_PORT=5433                   # PostgreSQL port
+    - DB_NAME=odoo                   # Database name
+    - DB_USER=odoo                   # User login
+    - DB_PASSWD=odoo                 # User password
     - ODOO_E_PATH=../odoo-3          # Relative path to Odoo-EE source
     - HMR_MODULES_PATH=../hmr-odoo   # Relative path to Hammerton modules
 5. Before using the file you need to execute the build command. This step is executed only one time
@@ -47,6 +50,7 @@ Instructions assume you are starting in your home directory (e.g. `~/`)
 
 ## How To section
 1. How to start all containers
+    - `sudo docker compose up`
 
 2. How to stop all containers
     - `Press Ctrl + c`
