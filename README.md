@@ -1,4 +1,5 @@
 # Installation and Initial Configuration
+Instructions assume you are starting in your home directory (e.g. `~/`)
 
 ## Docker installation
 1. [Install docker](https://docs.docker.com/get-docker/)
@@ -25,6 +26,8 @@
 	- DB_NAME=odoo      - Database name
 	- DB_USER=odoo      - User login
 	- DB_PASSWD=odoo    - User password
+    - ODOO_E_PATH=../odoo-3          # Relative path to Odoo-EE source
+    - HMR_MODULES_PATH=../hmr-odoo   # Relative path to Hammerton modules
 5. Before using the file you need to execute the build command. This step is executed only one time
     - `sudo docker-compose build`
 

@@ -11,8 +11,8 @@ services:
     tty: true # To enable ipdb
     volumes:
       - ${ODOO_E_PATH}:/mnt/enterprise
-      - ${HAMMERTON_MODULES_PATH}:/mnt/extra-addons
-      - ${HAMMERTON_MODULES_PATH}:/mnt/hammerton
+      - ${HMR_MODULES_PATH}:/mnt/extra-addons
+      - ${HMR_MODULES_PATH}:/mnt/hammerton
       - ./odoo-config:/etc/odoo
       - odoo-web-data:/var/lib/odoo # ephemeral volume
     #Uncomment next line to install a module
