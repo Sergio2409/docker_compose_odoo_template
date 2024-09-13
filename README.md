@@ -10,7 +10,7 @@ Instructions assume you are starting in your home directory (e.g. `~/`)
     - `git clone git clone --branch ham-dev git@github.com:Sergio2409/docker_compose_odoo_template.git`
 
 ## Set up other repo directories
-    - Clone Odoo-EE repo (must have access) `git clone git@github.com:odoo/enterprise.git odoo-e`
+    - Clone Odoo-EE 16.0 repo (must have access) `git clone --branch 16.0 git@github.com:odoo/enterprise.git odoo-e`
     - Clone hmr-odoo repo (must have access) `git clone https://github.com/hmr-odoo/hammerton.git hmr-odoo`
 
 2. Enter the folder
