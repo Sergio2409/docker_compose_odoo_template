@@ -11,7 +11,7 @@ Instructions assume you are starting in your home directory (e.g. `~/`)
 
 ## Set up other repo directories
     - Clone Odoo-EE repo (must have access) `git clone git@github.com:odoo/enterprise.git odoo-e`
-    - Clone hmr-odoo (must have access) `git clone https://github.com/hmr-odoo/hammerton.git hmr-odoo`
+    - Clone hmr-odoo repo (must have access) `git clone https://github.com/hmr-odoo/hammerton.git hmr-odoo`
 
 2. Enter the folder
     - cd docker_compose_odoo_template
