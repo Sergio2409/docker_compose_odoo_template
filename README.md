@@ -10,7 +10,7 @@ Instructions assume you are starting in your home directory (e.g. `~/`)
     - `git clone git clone --branch ham-dev git@github.com:Sergio2409/docker_compose_odoo_template.git`
 
 ## Set up other repo directories
-    - Clone Odoo-EE repo (must have access) `git clone git@github.com:odoo/enterprise.git odoo-e`
+    - Clone Odoo-EE 16.0 repo (must have access) `git clone --branch 16.0 git@github.com:odoo/enterprise.git odoo-e`
     - Clone hmr-odoo repo (must have access) `git clone https://github.com/hmr-odoo/hammerton.git hmr-odoo`
 
 2. Enter the folder
@@ -29,8 +29,9 @@ Instructions assume you are starting in your home directory (e.g. `~/`)
     - DB_NAME=odoo                   # Database name
     - DB_USER=odoo                   # User login
     - DB_PASSWD=odoo                 # User password
-    - ODOO_E_PATH=../odoo-3          # Relative path to Odoo-EE source
+    - ODOO_E_PATH=../odoo-e          # Relative path to Odoo-EE source
     - HMR_MODULES_PATH=../hmr-odoo   # Relative path to Hammerton modules
+
 5. Before using the file you need to execute the build command. This step is executed only one time
     - `sudo docker compose build`
 
