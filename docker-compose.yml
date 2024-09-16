@@ -21,6 +21,8 @@ services:
     #command: -u openacademy -d odoo
     depends_on:
       - database-stack
+    networks:
+      - internal-network
     restart: always
 
   database-stack:
@@ -36,6 +38,8 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWD}
       - POSTGRES_USER=${DB_USER}
       - PGDATA=/var/lib/postgresql/data/pgdata
+    networks:
+      - internal-network
     restart: always
 
   nginx-stack:
@@ -45,14 +49,21 @@ services:
       dockerfile: nginx.Dockerfile
     volumes:
       - ./nginx-config:/etc/nginx/conf.d
-    ports:
-      - 80:80   #non secure
-      - 443:443 #ssl
+    expose:
+      - "80" # expose only internally
+      - "443" # expose only internally
     depends_on:
       - odoo-stack
+    networks:
+      - internal-network
     restart: always
 
- # These volumes are ephemeral (doesn't need to mount on local filesystem)
+# Define internal network
+networks:
+  internal-network:
+    driver: bridge
+
+# These volumes are ephemeral (don't need to mount on local filesystem)
 volumes:
   odoo-web-data:
   database-stack-data:
