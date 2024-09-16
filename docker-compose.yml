@@ -52,7 +52,7 @@ services:
       - PGADMIN_CONFIG_SERVER_MODE=False
       - PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED=False
     ports:
-      - "${PGADMIN_PORT}:80" # Expose the pgAdmin port from .env
+      - "8080:80" # Expose the pgAdmin port from .env
     entrypoint: /bin/sh -c "chmod 600 /pgpass; /entrypoint.sh;"
     depends_on:
       - database-stack
