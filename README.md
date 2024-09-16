@@ -58,7 +58,7 @@ Instructions assume you are starting in your home directory (e.g., `~/`).
     sudo docker compose up
     ```
 
-8. Comment line 15 of the `docker-compose.yml` to avoid installing the `base` module every time.
+8. Comment `- ${HMR_MODULES_PATH}:/mnt/hammerton)` (line 15) of `docker-compose.yml` to avoid installing the `base` module every time.
 
 9. Start all the containers:
     ```bash
@@ -69,7 +69,11 @@ Instructions assume you are starting in your home directory (e.g., `~/`).
     - The credentials are configured in the `.env` file.
     - Default login: `admin`, password: `admin`.
 
-11. The setup is complete if no errors occurred.
+11. [Open the pgAdmin instance](http://localhost:8080/)
+    - The credentials are configured in the `.env` file.
+    - Default login: `admin`, password: `admin`.
+
+12. The setup is complete if no errors occurred.
 
 ## How-To Section
 
