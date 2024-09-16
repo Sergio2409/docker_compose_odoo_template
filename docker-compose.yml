@@ -16,7 +16,7 @@ services:
       - ./odoo-config:/etc/odoo
       - odoo-web-data:/var/lib/odoo # ephemeral volume
     #Uncomment next line to install a module
-    command: -i hmr_data_bridge -d odoo # -i hmr_stock,hmr_data_bridge -d odoo --test-enable
+    command: -i hmr_data_bridge # -i hmr_stock,hmr_data_bridge -d odoo --test-enable
     #Uncomment next line to update a module
     #command: -u openacademy -d odoo
     depends_on:
