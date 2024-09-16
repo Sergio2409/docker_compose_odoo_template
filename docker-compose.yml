@@ -42,6 +42,29 @@ services:
       - internal-network
     restart: always
 
+  pgadmin-stack:
+    container_name: pgadmin-stack
+    image: dpage/pgadmin4
+    user: root # Necessary to generate /pgpass and /servers.json configs
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
+      - PGADMIN_CONFIG_SERVER_MODE=False
+      - PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED=False
+    ports:
+      - "${PGADMIN_PORT}:80" # Expose the pgAdmin port from .env
+    entrypoint: /bin/sh -c "chmod 600 /pgpass; /entrypoint.sh;"
+    depends_on:
+      - database-stack
+    networks:
+      - internal-network
+    restart: always
+    configs:
+      - source: servers.json
+        target: /pgadmin4/servers.json
+      - source: pgpass
+        target: /pgpass
+
   nginx-stack:
     container_name: nginx-stack
     build:
@@ -67,3 +90,20 @@ networks:
 volumes:
   odoo-web-data:
   database-stack-data:
+
+# Automatic creation of server config(s) on pgAdmin host
+configs:
+  pgpass:
+    content: database-stack:5432:${DB_NAME}:${DB_USER}:${DB_PASSWD}
+  servers.json:
+    content: |
+      {"Servers": {"1": {
+        "Group": "Servers",
+        "Name": "Odoo Database Local Docker",
+        "Host": "database-stack",
+        "Port": 5432,
+        "MaintenanceDB": "postgres",
+        "Username": "${DB_USER}",
+        "PassFile": "/pgpass",
+        "SSLMode": "prefer"
+      }}}
