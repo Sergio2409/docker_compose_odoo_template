@@ -1,4 +1,3 @@
-version: '3.9'
 services:
   odoo-stack:
     container_name: odoo-stack
@@ -16,7 +15,7 @@ services:
       - ./odoo-config:/etc/odoo
       - odoo-web-data:/var/lib/odoo # ephemeral volume
     #Uncomment next line to install a module
-    command: -i hmr_data_bridge -d odoo # -i hmr_stock,hmr_data_bridge -d odoo --test-enable
+    # command: -i hmr_data_bridge -d odoo # -i hmr_stock,hmr_data_bridge -d odoo --test-enable
     #Uncomment next line to update a module
     #command: -u openacademy -d odoo
     depends_on:
@@ -46,13 +45,13 @@ services:
     volumes:
       - ./nginx-config:/etc/nginx/conf.d
     ports:
-      - 80:80   #non secure
+      - 80:80 #non secure
       - 443:443 #ssl
     depends_on:
       - odoo-stack
     restart: always
 
- # These volumes are ephemeral (doesn't need to mount on local filesystem)
+  # These volumes are ephemeral (doesn't need to mount on local filesystem)
 volumes:
   odoo-web-data:
   database-stack-data:
