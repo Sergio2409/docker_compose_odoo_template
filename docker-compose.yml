@@ -1,24 +1,23 @@
 version: '3.9'
 services:
-  odoo-stack:
-    container_name: odoo-stack
+  ubuntu-webserver:
+    container_name: ubuntu-webserver
+    image: ubuntu:latest
     build:
       context: ./dockerfile
-      dockerfile: odoo.Dockerfile
+      dockerfile: ubuntu.Dockerfile
     ports:
       - "8069:8069"
-    stdin_open: true # To enable ipdb
-    tty: true # To enable ipdb
+    stdin_open: true # Enable ipdb
+    tty: true # Enable ipdb
     volumes:
+      - ${ODOO_SRC_PATH}:/home/odoo
       - ${ODOO_E_PATH}:/mnt/enterprise
-      - ${HMR_MODULES_PATH}:/mnt/extra-addons
       - ${HMR_MODULES_PATH}:/mnt/hammerton
+      - odoo-fs-data:/root/.local/share/Odoo # Ephemeral volume
+      - odoo-web-data:/var/lib/odoo # Ephemeral volume
       - ./odoo-config:/etc/odoo
-      - odoo-web-data:/var/lib/odoo # ephemeral volume
-    #Uncomment next line to install a module
-    command: -i hmr_data_bridge # -i hmr_stock,hmr_data_bridge -d odoo --test-enable
-    #Uncomment next line to update a module
-    #command: -u openacademy -d odoo
+    command: /opt/odoo-venv/bin/python /home/odoo/odoo-bin -c /etc/odoo/odoo.conf -i hmr-stock
     depends_on:
       - database-stack
     networks:
@@ -29,10 +28,9 @@ services:
     container_name: database-stack
     image: ${DB_IMAGE}:${DB_TAG}
     volumes:
-      - database-stack-data:/var/lib/postgresql/data/pgdata # ephemeral volume
+      - database-stack-data:/var/lib/postgresql/data/pgdata # Ephemeral volume
     ports:
       - "${DB_PORT}:5432"
-    #command: -p 5433
     environment:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_PASSWORD=${DB_PASSWD}
@@ -65,30 +63,15 @@ services:
       - source: pgpass
         target: /pgpass
 
-  nginx-stack:
-    container_name: nginx-stack
-    build:
-      context: ./dockerfile
-      dockerfile: nginx.Dockerfile
-    volumes:
-      - ./nginx-config:/etc/nginx/conf.d
-    expose:
-      - "80" # expose only internally
-      - "443" # expose only internally
-    depends_on:
-      - odoo-stack
-    networks:
-      - internal-network
-    restart: always
-
 # Define internal network
 networks:
   internal-network:
     driver: bridge
 
-# These volumes are ephemeral (don't need to mount on local filesystem)
+# Volumes
 volumes:
   odoo-web-data:
+  odoo-fs-data:
   database-stack-data:
 
 # Automatic creation of server config(s) on pgAdmin host

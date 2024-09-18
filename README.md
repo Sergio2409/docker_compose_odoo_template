@@ -8,7 +8,7 @@ Instructions assume you are starting in your home directory (e.g., `~/`).
 
 ## Setup Odoo with Docker
 
-1. Download the Repository:
+1. Download this Repository:
     ```bash
     git clone --branch ham-dev git@github.com:Sergio2409/docker_compose_odoo_template.git
     ```
@@ -22,7 +22,7 @@ Instructions assume you are starting in your home directory (e.g., `~/`).
 
     - Clone the `hmr-odoo` repo (must have access):
         ```bash
-        git clone git@github.com/hmr-odoo/hammerton.git hmr-odoo
+        git clone git@github.com:hmr-odoo/hammerton.git hmr-odoo
         ```
 
 3. Enter the folder:
@@ -73,7 +73,14 @@ Instructions assume you are starting in your home directory (e.g., `~/`).
     - The credentials are configured in the `.env` file.
     - Default login: `admin`, password: `admin`.
 
-12. The setup is complete if no errors occurred.
+12. In Odoo, upgrade base module with restored database.
+
+    You can upgrade base module from the terminal or GUI.
+
+    From Terminal:
+    - Append at the end of start command of Odoo. `-u all -d restored_database_name`
+    From GUI:
+    - Go to Apps => Apps => remove Apps filter and search `base`. Click three dots, then click upgrade button.
 
 ## How-To Section
 
