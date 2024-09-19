@@ -13,7 +13,12 @@ Instructions assume you are starting in your home directory (e.g., `~/`).
     git clone --branch ham-dev git@github.com:Sergio2409/docker_compose_odoo_template.git
     ```
 
-2. Set up other repo directories:
+2. Set up other repo directories somewhere on your local filesystem. They will be mounted later on in your `.env` file:
+
+    - Clone Odoo 16.0 Community repo:
+        ```bash
+        git clone --branch 16.0 git@github.com:odoo/odoo.git odoo
+        ```
 
     - Clone Odoo-EE 16.0 repo (must have access):
         ```bash
@@ -37,18 +42,25 @@ Instructions assume you are starting in your home directory (e.g., `~/`).
 
 5. Update the `.env` file with your own values or use the defaults:
     ```bash
-    # .env file
-    DB_IMAGE=postgres               # [Postgres official docker image](https://registry.hub.docker.com/_/postgres)
-    DB_TAG=latest                   # The `latest` tag is the default
+    ## DATABASE INFO ##
+    DB_IMAGE=postgres               # [Postgres oficial docker image](https://registry.hub.docker.com/_/postgres)
+    DB_TAG=latest                   # From the above link select the respective tag, the `latest` tag is the default
     DB_PORT=5433                    # PostgreSQL port
     DB_NAME=odoo                    # Database name
     DB_USER=odoo                    # User login
     DB_PASSWD=odoo                  # User password
-    ODOO_E_PATH=../odoo-e           # Relative path to Odoo-EE source
+
+    ## PGADMIN ##
+    PGADMIN_EMAIL=admin@example.com # Email for pgadmin
+    PGADMIN_PASSWORD=odoo           # Password for pgadmin
+
+    ## PATHS ##
+    ODOO_E_PATH=../odoo-e           # Relative path to Odoo-EE packages
+    ODOO_SRC_PATH=../odoo           # Relative path to Odoo source
     HMR_MODULES_PATH=../hmr-odoo    # Relative path to Hammerton modules
     ```
 
-6. Build the Docker images (execute this command once):
+6. (Optional - if you don't build first, it builds when you run `up`.) Before using the file you need to execute the build command. This step is executed only one time.
     ```bash
     sudo docker compose build
     ```
@@ -58,29 +70,13 @@ Instructions assume you are starting in your home directory (e.g., `~/`).
     sudo docker compose up
     ```
 
-8. Comment `- ${HMR_MODULES_PATH}:/mnt/hammerton)` (line 15) of `docker-compose.yml` to avoid installing the `base` module every time.
-
-9. Start all the containers:
-    ```bash
-    sudo docker compose up
-    ```
-
-10. [Open the Odoo instance](http://localhost:8069/)
+9. Open the Odoo instance (http://localhost:8069/)
     - The credentials are configured in the `.env` file.
     - Default login: `admin`, password: `admin`.
 
-11. [Open the pgAdmin instance](http://localhost:8080/)
+10. Open the pgAdmin instance (http://localhost:8080/)
     - The credentials are configured in the `.env` file.
-    - Default login: `admin`, password: `admin`.
-
-12. In Odoo, upgrade base module with restored database.
-
-    You can upgrade base module from the terminal or GUI.
-
-    From Terminal:
-    - Append at the end of start command of Odoo. `-u all -d restored_database_name`
-    From GUI:
-    - Go to Apps => Apps => remove Apps filter and search `base`. Click three dots, then click upgrade button.
+    - Default database password: `odoo` (or as defined in `.env`).
 
 ## How-To Section
 
@@ -131,3 +127,28 @@ Instructions assume you are starting in your home directory (e.g., `~/`).
         ```bash
         sudo docker attach odoo-stack
         ```
+9. **After a database restore, upgrade base module with restored database.**
+
+    - Go to Apps => Apps => remove Apps filter and search `base`. Click three dots, then click upgrade button.
+
+10. **How to Restore or Upload an Odoo Backup from Another Server**
+
+    1. Download a neutralized database backup (with or without filestore) from Odoo.sh (or other hosting provider) for the desired environment.
+
+    2. Use the [Odoo Database Manager tool](http://localhost:8069/web/database/manager) to restore the backup:
+        - You can pick any database manager password (common default is `admin`).
+        - Select the `.zip` file with the backup.
+        - Choose a new database name (avoid using `odoo`).
+        - After the restoration completes, click on the database name to open it.
+
+    3. Log in with the credentials from the restored database.
+
+    4. Optional: Upgrade the `hmr_*` modules in the following suggested order via the Apps menu:
+        - `hmr_stock`
+        - `hmr_sale`
+        - `hmr_hr`
+        - `hmr_account`
+
+    5. Alternatives:
+        - Use `pgAdmin`, `psql`, or `pg_restore` to restore the database manually.
+        - Note: Odoo.sh uses SQL format dumps that aren't compatible with `pg_restore` or pgAdmin's restore function, so these must be loaded using `psql` or a query window in pgAdmin.
