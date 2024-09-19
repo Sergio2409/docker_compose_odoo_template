@@ -131,9 +131,6 @@ Instructions assume you are starting in your home directory (e.g., `~/`).
         ```bash
         sudo docker attach odoo-stack
         ```
-9. **After a database restore, upgrade base module with restored database.**
-
-    - Go to Apps => Apps => remove Apps filter and search `base`. Click three dots, then click upgrade button.
 
 10. **How to Restore or Upload an Odoo Backup from Another Server**
 
@@ -147,12 +144,14 @@ Instructions assume you are starting in your home directory (e.g., `~/`).
 
     3. Log in with the credentials from the restored database.
 
-    4. Optional: Upgrade the `hmr_*` modules in the following suggested order via the Apps menu:
+    4. Optional: To fix missing dashboard icons, go to Apps => Apps => remove Apps filter and search `base`. Click three dots, then click upgrade button.
+
+    5. Optional: Upgrade the `hmr_*` modules in the following suggested order via the Apps menu:
         - `hmr_stock`
         - `hmr_sale`
         - `hmr_hr`
         - `hmr_account`
 
-    5. Alternatives:
+    6. Alternatives:
         - Use `pgAdmin`, `psql`, or `pg_restore` to restore the database manually.
         - Note: Odoo.sh uses SQL format dumps that aren't compatible with `pg_restore` or pgAdmin's restore function, so these must be loaded using `psql` or a query window in pgAdmin.
