@@ -2,8 +2,11 @@
 FROM ubuntu:22.04
 LABEL MAINTAINER Sergio Valdes <sergiovaldes2409@gmail.com>
 
+# Prevents interactive prompts during package installation.
+ENV DEBIAN_FRONTEND=noninteractive
+
 # Install necessary packages
-RUN apt-get update && apt-get install -y \
+RUN apt update && apt install -y --no-install-recommends \
     build-essential \
     libffi-dev \
     libldap2-dev \
@@ -17,9 +20,8 @@ RUN apt-get update && apt-get install -y \
     python3-dev \
     python3-pip \
     python3-venv \
-    wkhtmltopdf \
-    --no-install-recommends && \
-    apt-get clean && \
+    wkhtmltopdf && \
+    apt clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Create a virtual environment
