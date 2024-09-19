@@ -5,6 +5,9 @@ services:
     build:
       context: ./dockerfile
       dockerfile: ubuntu.Dockerfile
+      additional_contexts:
+        odoo-src: ${ODOO_SRC_PATH}
+        hmr-odoo: ${HMR_MODULES_PATH}
     ports:
       - "8069:8069"
     stdin_open: true # Enable ipdb
