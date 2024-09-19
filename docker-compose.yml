@@ -27,7 +27,7 @@ services:
     container_name: database-stack
     image: ${DB_IMAGE}:${DB_TAG}
     volumes:
-      - ./psql-data:/var/lib/postgresql/data/pgdata
+      - database-stack-data:/var/lib/postgresql/data/pgdata # Ephemeral volume
     ports:
       - "${DB_PORT}:5432"
     environment:
@@ -71,6 +71,7 @@ networks:
 volumes:
   odoo-web-data:
   odoo-fs-data:
+  database-stack-data:
 
 # Automatic creation of server config(s) on pgAdmin host
 configs:
