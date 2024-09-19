@@ -82,5 +82,5 @@ zeep==4.0.0
 
 ####### HAMMERTON APPS #########
 stripe==2.37.1
-# msal==1.31.0
+msal==1.31.0
 ipdb

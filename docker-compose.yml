@@ -16,7 +16,7 @@ services:
       - odoo-fs-data:/root/.local/share/Odoo # Ephemeral volume
       - odoo-web-data:/var/lib/odoo # Ephemeral volume
       - ./odoo-config:/etc/odoo
-    command: /opt/odoo-venv/bin/python /home/odoo/odoo-bin -c /etc/odoo/odoo.conf -i hmr-stock
+    command: -i hmr-stock
     depends_on:
       - database-stack
     networks:
