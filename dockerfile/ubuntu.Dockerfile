@@ -1,5 +1,5 @@
 # Install Python and required packages
-FROM ubuntu:latest
+FROM ubuntu:22.04
 LABEL MAINTAINER Sergio Valdes <sergiovaldes2409@gmail.com>
 
 # Install necessary packages
