@@ -1,6 +1,6 @@
 services:
-  ubuntu-webserver:
-    container_name: ubuntu-webserver
+  ubuntu-stack:
+    container_name: ubuntu-stack
     image: ubuntu:22.04
     build:
       context: ./dockerfile
