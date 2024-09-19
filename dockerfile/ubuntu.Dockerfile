@@ -27,8 +27,10 @@ RUN apt update && apt install -y --no-install-recommends \
 # Create a virtual environment
 RUN python3 -m venv /opt/odoo-venv
 
+# Set the context for Odoo source
+COPY --from=odoo-src /requirements.txt /tmp/requirements.txt
+
 # Activate the virtual environment and install Odoo requirements
-COPY requirements.txt /tmp/requirements.txt
 RUN /opt/odoo-venv/bin/pip install --no-cache-dir -r /tmp/requirements.txt
 
 # Expose the Odoo port

@@ -13,7 +13,7 @@ Instructions assume you are starting in your home directory (e.g., `~/`).
     git clone --branch ham-dev git@github.com:Sergio2409/docker_compose_odoo_template.git
     ```
 
-2. Set up other repo directories somewhere on your local filesystem. They will be mounted later on in your `.env` file:
+2. Set up other repo directories somewhere on your local filesystem. The paths will be specified in in your `.env` file, and are necessary for the Docker to build:
 
     - Clone Odoo 16.0 Community repo:
         ```bash
