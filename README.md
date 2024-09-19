@@ -78,6 +78,10 @@ Instructions assume you are starting in your home directory (e.g., `~/`).
     - The credentials are configured in the `.env` file.
     - Default database password: `odoo` (or as defined in `.env`).
 
+## Important notes
+    - Your database volume is ephemeral, meaning that if you restore a database and run `docker volume rm` or `docker prune` it will wipe out your restored database.
+    - No files are kept either, so if you restore a database with a filesystem, that is also wiped with `docker volume rm` or `docker prune`.
+
 ## How-To Section
 
 1. **How to start all containers:**
