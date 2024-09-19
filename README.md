@@ -50,17 +50,13 @@ Instructions assume you are starting in your home directory (e.g., `~/`).
     DB_USER=odoo                    # User login
     DB_PASSWD=odoo                  # User password
 
-    ## PGADMIN ##
-    PGADMIN_EMAIL=admin@example.com # Email for pgadmin
-    PGADMIN_PASSWORD=odoo           # Password for pgadmin
-
     ## PATHS ##
     ODOO_E_PATH=../odoo-e           # Relative path to Odoo-EE packages
     ODOO_SRC_PATH=../odoo           # Relative path to Odoo source
     HMR_MODULES_PATH=../hmr-odoo    # Relative path to Hammerton modules
     ```
 
-6. (Optional - if you don't build first, it builds when you run `up`.) Before using the file you need to execute the build command. This step is executed only one time.
+6. Before using the file you need to execute the build command. This step is executed only one time.
     ```bash
     sudo docker compose build
     ```

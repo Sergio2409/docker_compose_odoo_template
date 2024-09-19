@@ -44,10 +44,10 @@ services:
     image: dpage/pgadmin4
     user: root # Necessary to generate /pgpass and /servers.json configs
     environment:
-      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}
-      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
+      - PGADMIN_DEFAULT_EMAIL=admin@example.com
+      - PGADMIN_DEFAULT_PASSWORD=odoo
       - PGADMIN_CONFIG_SERVER_MODE=False
-      - PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED=False
+      - PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED=False # Configures auto-login
     ports:
       - "8080:80" # Expose the pgAdmin port from .env
     entrypoint: /bin/sh -c "chmod 600 /pgpass; /entrypoint.sh;"
