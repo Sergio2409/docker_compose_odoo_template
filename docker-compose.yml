@@ -1,57 +1,94 @@
 services:
-  odoo-stack:
-    container_name: odoo-stack
+  ubuntu-stack:
+    container_name: ubuntu-stack
+    image: ubuntu:22.04
     build:
       context: ./dockerfile
-      dockerfile: odoo.Dockerfile
+      dockerfile: ubuntu.Dockerfile
+      additional_contexts:
+        odoo-src: ${ODOO_SRC_PATH}
+        hmr-odoo: ${HMR_MODULES_PATH}
     ports:
       - "8069:8069"
-    stdin_open: true # To enable ipdb
-    tty: true # To enable ipdb
+    stdin_open: true # Enable ipdb
+    tty: true # Enable ipdb
     volumes:
+      - ${ODOO_SRC_PATH}:/home/odoo
       - ${ODOO_E_PATH}:/mnt/enterprise
-      - ${HMR_MODULES_PATH}:/mnt/extra-addons
       - ${HMR_MODULES_PATH}:/mnt/hammerton
+      - odoo-fs-data:/root/.local/share/Odoo # Ephemeral volume
+      - odoo-web-data:/var/lib/odoo # Ephemeral volume
       - ./odoo-config:/etc/odoo
-      - odoo-web-data:/var/lib/odoo # ephemeral volume
-    #Uncomment next line to install a module
-    # command: -i hmr_data_bridge -d odoo # -i hmr_stock,hmr_data_bridge -d odoo --test-enable
-    #Uncomment next line to update a module
-    #command: -u openacademy -d odoo
+    command: -i hmr-stock
     depends_on:
       - database-stack
+    networks:
+      - internal-network
     restart: always
 
   database-stack:
     container_name: database-stack
     image: ${DB_IMAGE}:${DB_TAG}
     volumes:
-      - database-stack-data:/var/lib/postgresql/data/pgdata # ephemeral volume
+      - database-stack-data:/var/lib/postgresql/data/pgdata # Ephemeral volume
     ports:
       - "${DB_PORT}:5432"
-    #command: -p 5433
     environment:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_PASSWORD=${DB_PASSWD}
       - POSTGRES_USER=${DB_USER}
       - PGDATA=/var/lib/postgresql/data/pgdata
+    networks:
+      - internal-network
     restart: always
 
-  nginx-stack:
-    container_name: nginx-stack
-    build:
-      context: ./dockerfile
-      dockerfile: nginx.Dockerfile
-    volumes:
-      - ./nginx-config:/etc/nginx/conf.d
+  pgadmin-stack:
+    container_name: pgadmin-stack
+    image: dpage/pgadmin4
+    user: root # Necessary to generate /pgpass and /servers.json configs
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@example.com
+      - PGADMIN_DEFAULT_PASSWORD=odoo
+      - PGADMIN_CONFIG_SERVER_MODE=False
+      - PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED=False # Configures auto-login
     ports:
-      - 80:80 #non secure
-      - 443:443 #ssl
+      - "8080:80" # Expose the pgAdmin port from .env
+    entrypoint: /bin/sh -c "chmod 600 /pgpass; /entrypoint.sh;"
     depends_on:
-      - odoo-stack
+      - database-stack
+    networks:
+      - internal-network
     restart: always
+    configs:
+      - source: servers.json
+        target: /pgadmin4/servers.json
+      - source: pgpass
+        target: /pgpass
 
-  # These volumes are ephemeral (doesn't need to mount on local filesystem)
+# Define internal network
+networks:
+  internal-network:
+    driver: bridge
+
+# Volumes
 volumes:
   odoo-web-data:
+  odoo-fs-data:
   database-stack-data:
+
+# Automatic creation of server config(s) on pgAdmin host
+configs:
+  pgpass:
+    content: database-stack:5432:${DB_NAME}:${DB_USER}:${DB_PASSWD}
+  servers.json:
+    content: |
+      {"Servers": {"1": {
+        "Group": "Servers",
+        "Name": "Odoo Database Local Docker",
+        "Host": "database-stack",
+        "Port": 5432,
+        "MaintenanceDB": "postgres",
+        "Username": "${DB_USER}",
+        "PassFile": "/pgpass",
+        "SSLMode": "prefer"
+      }}}

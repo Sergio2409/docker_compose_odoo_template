@@ -1,135 +1,154 @@
 # Installation and Initial Configuration for Hammerton Devs
 
-Instructions assume you are starting in your home directory (e.g. `~/`)
+Instructions assume you are starting in your home directory (e.g., `~/`).
 
-## Docker installation
-
-1. [Install docker](https://docs.docker.com/get-docker/)
-2. [Install docker compose](https://docs.docker.com/compose/install/)
+## Docker Installation
+1. [Install Docker](https://docs.docker.com/get-docker/)
+2. [Install Docker Compose](https://docs.docker.com/compose/install/)
 
 ## Setup Odoo with Docker
 
-1. Download the Repository
-   - With SSH: `git clone --branch ham-dev git@github.com:Sergio2409/docker_compose_odoo_template.git`
-   - With HTTPS: `git clone --branch ham-dev https://github.com/Sergio2409/docker_compose_odoo_template.git`
+1. Download this Repository:
+    ```bash
+    git clone --branch ham-dev git@github.com:Sergio2409/docker_compose_odoo_template.git
+    ```
 
-## Set up other repo directories
+2. Set up other repo directories somewhere on your local filesystem. The paths will be specified in in your `.env` file, and are necessary for the Docker to build:
 
-    - Clone Odoo-EE 16.0 repo (must have access) `git clone --branch 16.0 git@github.com:odoo/enterprise.git odoo-e`
-    - Clone hmr-odoo repo (must have access) `git clone https://github.com/hmr-odoo/hammerton.git hmr-odoo`
+    - Clone Odoo 16.0 Community repo:
+        ```bash
+        git clone --branch 16.0 git@github.com:odoo/odoo.git odoo
+        ```
 
-2. Enter the folder
+    - Clone Odoo-EE 16.0 repo (must have access):
+        ```bash
+        git clone --branch 16.0 git@github.com:odoo/enterprise.git odoo-e
+        ```
 
-   - cd docker_compose_odoo_template
+    - Clone the `hmr-odoo` repo (must have access):
+        ```bash
+        git clone git@github.com:hmr-odoo/hammerton.git hmr-odoo
+        ```
 
-3. Select Odoo version from the Supported tags.
+3. Enter the folder:
+    ```bash
+    cd docker_compose_odoo_template
+    ```
 
-   - Go to to the link [Odoo oficial docker image](https://registry.hub.docker.com/_/odoo/)
-   - Select one tag from the the Supported tags and respective Dockerfile links for the respective Odoo version (e.g. `16.0`).
-   - Update the first line in `dockerfile/odoo.Dockerfile` to specify the appropriate Odoo version. The default version is `FROM odoo:16.0`.
+4. Select Odoo version from the Supported tags:
+    - Go to the [Odoo official docker image](https://registry.hub.docker.com/_/odoo/).
+    - Select a tag from the Supported tags for your desired Odoo version (e.g., `16.0`).
+    - Update the first line in `dockerfile/odoo.Dockerfile` with the appropriate Odoo version. The default is `FROM odoo:14.0`.
 
-4. The next step is to update the `.env` file with your own values if required otherwise you can let the default values.
-   File `.env`:
-   ```
-   DB_IMAGE=postgres             # [Postgres oficial docker image](https://registry.hub.docker.com/_/postgres)
-   DB_TAG=latest                 # From the above link select the respective tag, the `latest` tag is the default
-   DB_PORT=5432                  # PostgreSQL port
-   DB_NAME=odoo                  # Database name
-   DB_USER=odoo                  # User login
-   DB_PASSWD=odoo                # User password
-   ODOO_E_PATH=../odoo-e         # Relative path to Odoo-EE source
-   HMR_MODULES_PATH=../hmr-odoo  # Relative path to Hammerton modules
-   ```
-5. (Optional - if you don't build first, it builds when you run `up`.) Before using the file you need to execute the build command. This step is executed only one time.
+5. Update the `.env` file with your own values or use the defaults:
+    ```bash
+    ## DATABASE INFO ##
+    DB_IMAGE=postgres               # [Postgres oficial docker image](https://registry.hub.docker.com/_/postgres)
+    DB_TAG=latest                   # From the above link select the respective tag, the `latest` tag is the default
+    DB_PORT=5433                    # PostgreSQL port
+    DB_NAME=odoo                    # Database name
+    DB_USER=odoo                    # User login
+    DB_PASSWD=odoo                  # User password
 
-   - `sudo docker compose build`
+    ## PATHS ##
+    ODOO_E_PATH=../odoo-e           # Relative path to Odoo-EE packages
+    ODOO_SRC_PATH=../odoo           # Relative path to Odoo source
+    HMR_MODULES_PATH=../hmr-odoo    # Relative path to Hammerton modules
+    ```
 
-6. Start all the containers the first time
+6. Before using the file you need to execute the build command. This step is executed only one time.
+    ```bash
+    sudo docker compose build
+    ```
 
-   - `sudo docker compose up`
+7. Start all the containers for the first time:
+    ```bash
+    sudo docker compose up
+    ```
 
-7. Comment the line 15 of the `docker compose.yml` to avoid installing the `base` module every time
+9. Open the Odoo instance (http://localhost:8069/)
+    - The credentials are configured in the `.env` file.
+    - Default login: `admin`, password: `admin`.
 
-8. Start all the containers
+10. Open the pgAdmin instance (http://localhost:8080/)
+    - The credentials are configured in the `.env` file.
+    - Default database password: `odoo` (or as defined in `.env`).
 
-   - `sudo docker compose up`
+## Important notes
+    - Your database volume is ephemeral, meaning that if you restore a database and run `docker volume rm` or `docker prune` it will wipe out your restored database.
+    - No files are kept either, so if you restore a database with a filesystem, that is also wiped with `docker volume rm` or `docker prune`.
+    - It is recommended to run `docker compose build` periodically to refresh the Python dependencies.
 
-9. [Open the Odoo instance by clicking this link](http://localhost:8069/)
+## How-To Section
 
-   - The credentials are configured in the `.env` file.
-   - If no changes are made use login: `admin` and password: `admin`
+1. **How to start all containers:**
+    ```bash
+    sudo docker compose up
+    ```
 
-10. At this point the setup was finished if no error occured, and you'll be able
-    to use Odoo with the default database.
+2. **How to stop all containers:**
+    - Press `Ctrl + C`.
 
-11. To upload a database from another server, download a neutralized database backup (with or without filestore) from Odoo.sh (or whatever hosting), then use the [Odoo Database manager tool](http://localhost:8069/web/database/manager) to Restore it.
+3. **How to do a clean restart of a Docker instance:**
 
-- You can pick any password (`admin` is common/default)
-- Select the `.zip` file with the backup
-- Choose a database name (not `odoo`) to use
-- After completion, click on the database name to open it.
-- Log in (using a username and password contained in that database)
-- Go into Apps and run an Upgrade on the various `hmr_*` modules
-  to perform their installation.
-- The order may matter, suggested is `hmr_stock`, `hmr_sale`, `hmr_hr`, `hmr_account`, etc.
+    - Stop the containers:
+        ```bash
+        sudo docker compose down
+        ```
+    - Remove all containers:
+        ```bash
+        sudo docker rm -f $(sudo docker ps -a -q)
+        ```
+    - Remove all volumes:
+        ```bash
+        sudo docker volume rm $(sudo docker volume ls -q)
+        ```
 
-## How To section
+    *Note: Deleting volumes will wipe out data. Back up any necessary data before deleting.*
 
-1. How to start all containers
+4. **How to execute the Odoo scaffold command:**
+    ```bash
+    sudo docker exec odoo-stack /usr/bin/odoo scaffold openacademy /mnt/extra-addons
+    ```
 
-   - `sudo docker compose up`
+5. **How to execute the Odoo install command in the console:**
+    - Uncomment line 15 of the `docker-compose.yml` and modify `openacademy` to the desired module name.
 
-2. How to stop all containers
+6. **How to execute the Odoo update command in the console:**
+    - Uncomment line 17 of the `docker-compose.yml` and modify `openacademy` to the desired module name.
 
-   - `Press Ctrl + c`
+7. **How to include custom addons in the container:**
+    - Create the new addon in the `addons-extra` folder to be recognized by the Odoo container.
+    - Stop the server.
+    - Start the server again.
+    - Remember to update the App list inside Odoo Apps.
 
-3. How to Do a Clean Restart of a Docker Instance
+8. **How to access the debugging session (Ipdb):**
+    - In a new terminal, once Docker is running, type:
+        ```bash
+        sudo docker attach odoo-stack
+        ```
 
-   - Stop the container(s) using the following command: `docker compose down`
-   - Delete all containers using the following command: `sudo docker rm -f $(sudo docker ps -a -q)`
-   - Delete all volumes using the following command: `sudo docker volume rm $(sudo docker volume ls -q)`
+10. **How to Restore or Upload an Odoo Backup from Another Server**
 
-   Note: Deleting volumes will wipe out their data. Back up any data that you need before deleting a container
+    1. Download a neutralized database backup (with or without filestore) from Odoo.sh (or other hosting provider) for the desired environment.
 
-4. How to execute the Odoo scaffold command
+    2. Use the [Odoo Database Manager tool](http://localhost:8069/web/database/manager) to restore the backup:
+        - You can pick any database manager password (common default is `admin`).
+        - Select the `.zip` file with the backup.
+        - Choose a new database name (avoid using `odoo`).
+        - After the restoration completes, click on the database name to open it.
 
-   - `sudo docker exec odoo-stack /usr/bin/odoo scaffold openacademy /mnt/extra-addons`
+    3. Log in with the credentials from the restored database.
 
-5. How to execute the Odoo install command in console
+    4. Optional: To fix missing dashboard icons, go to Apps => Apps => remove Apps filter and search `base`. Click three dots, then click upgrade button.
 
-   - Uncomment the line 15 of the `docker compose.yml` and modify the `openacademy` by the proper module name
+    5. Optional: Upgrade the `hmr_*` modules in the following suggested order via the Apps menu:
+        - `hmr_stock`
+        - `hmr_sale`
+        - `hmr_hr`
+        - `hmr_account`
 
-6. How to execute the Odoo update command in console
-
-   - Uncomment the line 17 of the `docker compose.yml` and modify the `openacademy` by the proper module name
-
-7. How to include custom addons into the container
-
-   - Create the new addon into the `addons-extra` folder to be recognized by the Odoo container
-   - Stop the server
-   - Start the server
-   - Remember to update the App list inside Odoo Apps
-
-8. How to access to the Debugging session (Ipdb)
-
-   - On a new terminal once the Docker is running type: sudo docker attach odoo-stack
-
-9. How to access Odoo PostgreSQL database from pgAdmin?
-
-   - In pgAdmin, add a server configuration connecting to `localhost` using the
-     settings in your `.env` configuration: port is `DB_PORT`, username is
-     `DB_USER`, password is `DB_PASSWD`
-
-10. How to restore an Odoo backup from a production or staging server?
-
-- Download a neutralized database backup (with or without filestore) from Odoo.sh (or whatever hosting) for the desired environment.
-- The [Odoo Database manager tool](http://localhost:8069/web/database/manager) can then Restore it
-  - You can pick any password (`admin` is common/default)
-  - Select the `.zip` file with the backup
-  - Choose a database name (not `odoo`) to use
-  - After completion, click on the database name to open it.
-- Alternatives:
-  - Using pgAdmin or `psql` or `pg_restore`, you can restore the database
-  - Odoo.sh does SQL format dumps, which don't work with `pg_restore` or pgAdmin
-    restore function, so these should be loaded using `psql` or a query window in
-    pgAdmin.
+    6. Alternatives:
+        - Use `pgAdmin`, `psql`, or `pg_restore` to restore the database manually.
+        - Note: Odoo.sh uses SQL format dumps that aren't compatible with `pg_restore` or pgAdmin's restore function, so these must be loaded using `psql` or a query window in pgAdmin.
