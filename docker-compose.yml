@@ -1,4 +1,3 @@
-version: '3.9'
 services:
   odoo-stack:
     container_name: odoo-stack
@@ -6,17 +5,17 @@ services:
       context: ./dockerfile
       dockerfile: odoo.Dockerfile
     ports:
-      - "8069:8069"
+      - "${ODOO_WEB_PORT}:8069"
     stdin_open: true # To enable ipdb
     tty: true # To enable ipdb
     volumes:
-      #- /mnt/c/Users/sergi/src/odoo-dev/odoo_e:/mnt/enterprise
-      #- /mnt/c/Users/sergi/src/odoo-dev/odoo-addons/odoo16/danosa:/mnt/extra-addons
-      - /mnt/c/Users/sergi/src/odoo-dev/odoo-addons/odoo16/own/_db_backup/db/filestore:/root/.local/share/Odoo/filestore/odoo      
-      - ./config/odoo16/odoo-config:/etc/odoo
+      - ${ODOO_E_PATH}:/mnt/enterprise
+      - ${EXTRA_ADDONS}:/mnt/extra-addons
+      #- /mnt/c/Users/sergi/src/odoo-dev/odoo-addons/odoo16/own/_db_backup/db/filestore:/root/.local/share/Odoo/filestore/odoo
+      - ./odoo-config:/etc/odoo
       - odoo-web-data:/var/lib/odoo
     #Uncomment next line to install a module
-    #command: -d odoo -i base
+    command: ${INIT_COMMAND}
     #Uncomment next line to update a module
     #command: -u openacademy -d odoo
     depends_on:
@@ -28,7 +27,6 @@ services:
     image: ${DB_IMAGE}:${DB_TAG}
     volumes:
       - ./db-own-data:/var/lib/postgresql/data
-      - /mnt/c/Users/sergi/src/odoo-dev/odoo-addons/odoo16/own/_db_backup/dump.sql:/docker-entrypoint-initdb.d/dump.sql
       #- ./init-user-db/:/docker-entrypoint-initdb.d
     ports:
       - "${DB_PORT}:5432"
