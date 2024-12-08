@@ -4,13 +4,16 @@ services:
     build:
       context: ./dockerfile
       dockerfile: odoo.Dockerfile
+      args:
+        ODOO_TAG: ${ODOO_TAG} # from .env file
     ports:
       - "${ODOO_WEB_PORT}:8069"
     stdin_open: true # To enable ipdb
     tty: true # To enable ipdb
     volumes:
       - ${ODOO_E_PATH}:/mnt/enterprise
-      - ${EXTRA_ADDONS}:/mnt/extra-addons
+      - ${EXTRA_ADDONS_PATH}:/mnt/extra-addons
+      #- odoo-fs-data:/root/.local/share/odoo # Ephemeral volume
       #- /mnt/c/Users/sergi/src/odoo-dev/odoo-addons/odoo16/own/_db_backup/db/filestore:/root/.local/share/Odoo/filestore/odoo
       - ./odoo-config:/etc/odoo
       - odoo-web-data:/var/lib/odoo
@@ -23,7 +26,7 @@ services:
     restart: always
   
   database-stack:
-    container_name: database-stack
+    container_name: database-stack    
     image: ${DB_IMAGE}:${DB_TAG}
     volumes:
       - ./db-own-data:/var/lib/postgresql/data
@@ -55,3 +58,4 @@ services:
 volumes:
   odoo-web-data:
   database-stack-data:
+  odoo-fs-data:
