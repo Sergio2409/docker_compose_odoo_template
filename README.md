@@ -21,7 +21,7 @@
 	File `.env`:
 	- DB_IMAGE=postgres - [Postgres oficial docker image](https://registry.hub.docker.com/_/postgres)
 	- DB_TAG=latest     - From the above link select the respective tag, the `latest` tag is the default
-	- DB_PORT=5433      - PostgreSQL port
+	- DB_PORT=5435      - PostgreSQL port
 	- DB_NAME=odoo      - Database name
 	- DB_USER=odoo      - User login
 	- DB_PASSWD=odoo    - User password
